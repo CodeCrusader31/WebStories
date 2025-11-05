@@ -41,11 +41,11 @@ Includes an admin dashboard with secure authentication.
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/CodeCrusader31/WebStories
 cd project-root
 
 cd server
-npm install
+npm install 
 
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
