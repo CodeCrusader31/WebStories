@@ -9,7 +9,7 @@ export default function Home() {
   const { theme } = useTheme(); 
   const [stories, setStories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const storiesPerPage = 2;
+  const storiesPerPage = 3;
 
   useEffect(() => {
     getStories().then((res) => setStories(res.data));

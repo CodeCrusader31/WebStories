@@ -4,15 +4,17 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AddStory from "./pages/AddStory";
 import Player from "./pages/Player";
 import Navbar from "./components/Navbar";
-import { ThemeProvider } from "./context/ThemeContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminLogin from "./pages/AdminLoginPage";
 export default function App() {
   return (
     <Router>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/add" element={<AddStory />} />
+       <Route path="/admin/login" element={<AdminLogin />} />
+<Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+<Route path="/admin/add" element={<ProtectedRoute><AddStory /></ProtectedRoute>} />
         <Route path="/player/:id" element={<Player />} />
       </Routes>
     </Router>

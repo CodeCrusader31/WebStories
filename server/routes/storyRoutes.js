@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-
+import { verifyAdmin } from "../middlewares/authMiddleware.js";
 import{
     createStory,getAllStories,getStoryById,updateStory,deleteStory,uploadMedia
 } from '../controllers/storyController.js';
@@ -8,12 +8,12 @@ import{
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
-router.post('/upload', upload.single('file'), uploadMedia);
-router.post('/', createStory);
+router.post('/upload', verifyAdmin,upload.single('file'), uploadMedia);
+router.post('/', verifyAdmin, createStory);
 router.get('/', getAllStories);
 router.get('/:id', getStoryById);
-router.put('/:id', updateStory);
-router.delete('/:id', deleteStory);
+router.put('/:id', verifyAdmin, updateStory);
+router.delete('/:id',  verifyAdmin,deleteStory);
 
 
 

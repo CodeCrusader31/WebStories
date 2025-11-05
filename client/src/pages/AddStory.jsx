@@ -1,14 +1,30 @@
 
-import { useState } from "react";
-import { createStory, uploadFile } from "../api/storyApi";
-import { useNavigate } from "react-router-dom";
+
+
+import { useState, useEffect } from "react";
+import { createStory, uploadFile, getStoryById, updateStory } from "../api/storyApi";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function AddStory() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const editingId = params.get("id"); 
+
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [slides, setSlides] = useState([]);
   const [uploading, setUploading] = useState(false);
+
+ 
+  useEffect(() => {
+    if (editingId) {
+      getStoryById(editingId).then((res) => {
+        setTitle(res.data.title);
+        setCategory(res.data.category);
+        setSlides(res.data.slides || []);
+      });
+    }
+  }, [editingId]);
 
   const handleUpload = async (e) => {
     const files = Array.from(e.target.files);
@@ -23,7 +39,6 @@ export default function AddStory() {
         newUploads.push({ type, url: res.data.url });
       }
 
-      
       setSlides((prev) => [...prev, ...newUploads]);
     } catch (err) {
       console.error("Uploading failed:", err);
@@ -36,30 +51,30 @@ export default function AddStory() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title || !category) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    if (slides.length === 0) {
-      alert("Please upload at least one image or video slide!");
-      return;
-    }
+    if (!title || !category) return alert("Please fill in all fields.");
+    if (slides.length === 0) return alert("Upload at least one slide!");
 
     try {
-      await createStory({ title, category, slides });
-      alert("Story created successfully!");
+      if (editingId) {
+        await updateStory(editingId, { title, category, slides }); 
+        alert("✅ Story updated successfully!");
+      } else {
+        await createStory({ title, category, slides });
+        alert("✅ Story created successfully!");
+      }
+
       navigate("/admin/dashboard");
     } catch (err) {
-      console.error("Error in saving story:", err);
-      alert("failed to save");
-      
+      console.error("Error saving story:", err);
+      alert("Failed to save story.");
     }
   };
 
   return (
     <div className="p-6 max-w-xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-6">Add New Story</h2>
+      <h2 className="text-2xl font-semibold mb-6">
+        {editingId ? "✏️ Edit Story" : "➕ Add New Story"}
+      </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -70,6 +85,7 @@ export default function AddStory() {
           className="w-full border p-3 rounded-lg dark:bg-slate-800 dark:text-white"
           required
         />
+
         <input
           type="text"
           placeholder="Category"
@@ -78,6 +94,7 @@ export default function AddStory() {
           className="w-full border p-3 rounded-lg dark:bg-slate-800 dark:text-white"
           required
         />
+
         <input
           type="file"
           multiple
@@ -86,9 +103,7 @@ export default function AddStory() {
           className="w-full border p-3 rounded-lg cursor-pointer dark:bg-slate-800 dark:text-white"
         />
 
-        {uploading && (
-          <p className="text-indigo-600 animate-pulse">Uploading slides...</p>
-        )}
+        {uploading && <p className="text-indigo-600 animate-pulse">Uploading slides...</p>}
 
         {slides.length > 0 && (
           <div className="grid grid-cols-2 gap-3 mt-4">
@@ -117,7 +132,7 @@ export default function AddStory() {
           disabled={uploading}
           className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
         >
-          {uploading ? "Please wait..." : "Save Story"}
+          {editingId ? "Update Story" : "Save Story"}
         </button>
       </form>
     </div>
