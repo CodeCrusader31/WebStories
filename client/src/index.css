@@ -1,0 +1,38 @@
+/* 
+@import "tailwindcss";
+
+ @layer base {
+  body {
+    @apply bg-white text-black transition-colors duration-300;
+  }
+
+  .dark body {
+    @apply bg-slate-900 text-gray-400 transition-colors duration-300;
+  }
+}  */
+
+@import "tailwindcss";
+
+@layer base {
+  html {
+    @apply bg-white text-black transition-colors duration-300;
+  }
+
+  html.dark {
+    @apply bg-slate-900 text-gray-500 transition-colors duration-300;
+  }
+}
+
+
+ /* @import "tailwindcss";
+
+@layer base {
+  html {
+    @apply bg-white text-black transition-colors duration-300;
+  }
+
+  html.dark {
+    @apply bg-slate-900 text-gray-200 transition-colors duration-300;
+  }
+} */
+
