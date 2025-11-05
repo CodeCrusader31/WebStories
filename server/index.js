@@ -9,9 +9,14 @@ dotenv.config();
 const app = express();
 
 
-app.use(cors({
-  origin: "*", 
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://web-stories-puce.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use('/stories', storyRoutes);
 app.use('/auth', authRoutes);

@@ -26,5 +26,5 @@ export const uploadFile = (file) => {
   });
 };
 
-// ✅ Default export (important!)
+
 export default API;
