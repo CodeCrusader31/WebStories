@@ -1,21 +1,19 @@
-
-
-
 import { useState, useEffect } from "react";
 import { createStory, uploadFile, getStoryById, updateStory } from "../api/storyApi";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import useTheme from "../context/useTheme"; 
 
 export default function AddStory() {
+  const { theme } = useTheme(); // 
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const editingId = params.get("id"); 
+  const editingId = params.get("id");
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [slides, setSlides] = useState([]);
   const [uploading, setUploading] = useState(false);
 
- 
   useEffect(() => {
     if (editingId) {
       getStoryById(editingId).then((res) => {
@@ -56,7 +54,7 @@ export default function AddStory() {
 
     try {
       if (editingId) {
-        await updateStory(editingId, { title, category, slides }); 
+        await updateStory(editingId, { title, category, slides });
         alert("✅ Story updated successfully!");
       } else {
         await createStory({ title, category, slides });
@@ -71,7 +69,11 @@ export default function AddStory() {
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
+    <div
+      className={`p-6 max-w-xl mx-auto transition-colors duration-300 ${
+        theme === "dark" ? "text-white bg-slate-900" : "text-black bg-white"
+      }`}
+    >
       <h2 className="text-2xl font-semibold mb-6">
         {editingId ? "✏️ Edit Story" : "➕ Add New Story"}
       </h2>
@@ -82,7 +84,9 @@ export default function AddStory() {
           placeholder="Story Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full border p-3 rounded-lg dark:bg-slate-800 dark:text-white"
+          className={`w-full border p-3 rounded-lg transition-colors duration-300 ${
+            theme === "dark" ? "bg-slate-800 text-white border-slate-600" : "bg-white text-black"
+          }`}
           required
         />
 
@@ -91,7 +95,9 @@ export default function AddStory() {
           placeholder="Category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full border p-3 rounded-lg dark:bg-slate-800 dark:text-white"
+          className={`w-full border p-3 rounded-lg transition-colors duration-300 ${
+            theme === "dark" ? "bg-slate-800 text-white border-slate-600" : "bg-white text-black"
+          }`}
           required
         />
 
@@ -100,7 +106,9 @@ export default function AddStory() {
           multiple
           accept="image/*,video/*"
           onChange={handleUpload}
-          className="w-full border p-3 rounded-lg cursor-pointer dark:bg-slate-800 dark:text-white"
+          className={`w-full border p-3 rounded-lg cursor-pointer transition-colors duration-300 ${
+            theme === "dark" ? "bg-slate-800 text-white border-slate-600" : "bg-white text-black"
+          }`}
         />
 
         {uploading && <p className="text-indigo-600 animate-pulse">Uploading slides...</p>}
@@ -116,12 +124,7 @@ export default function AddStory() {
                   className="h-32 w-full object-cover rounded-md shadow"
                 />
               ) : (
-                <video
-                  key={i}
-                  src={s.url}
-                  className="h-32 w-full object-cover rounded-md shadow"
-                  controls
-                />
+                <video key={i} src={s.url} className="h-32 w-full object-cover rounded-md shadow" controls />
               )
             )}
           </div>
@@ -130,7 +133,11 @@ export default function AddStory() {
         <button
           type="submit"
           disabled={uploading}
-          className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+          className={`w-full py-3 rounded-lg transition ${
+            theme === "dark"
+              ? "bg-indigo-600 text-white hover:bg-indigo-500"
+              : "bg-indigo-600 text-white hover:bg-indigo-700"
+          } disabled:opacity-50`}
         >
           {editingId ? "Update Story" : "Save Story"}
         </button>
