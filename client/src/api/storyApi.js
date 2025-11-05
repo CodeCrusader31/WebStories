@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL:  "https://webstories-server.onrender.com" // change to your backend URL in production
+  baseURL:  "https://webstories-server.onrender.com" 
 });
 
 API.interceptors.request.use((config) => {
