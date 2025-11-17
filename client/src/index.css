@@ -24,15 +24,3 @@
 }
 
 
- /* @import "tailwindcss";
-
-@layer base {
-  html {
-    @apply bg-white text-black transition-colors duration-300;
-  }
-
-  html.dark {
-    @apply bg-slate-900 text-gray-200 transition-colors duration-300;
-  }
-} */
-

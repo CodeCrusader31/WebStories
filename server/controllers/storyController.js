@@ -113,4 +113,3 @@ export const uploadMedia = async (req, res) => {
     res.status(500).json({ message: "Upload failed", error: error.message });
   }
 };
-

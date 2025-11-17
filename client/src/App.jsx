@@ -12,9 +12,23 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-       <Route path="/admin/login" element={<AdminLogin />} />
-<Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-<Route path="/admin/add" element={<ProtectedRoute><AddStory /></ProtectedRoute>} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/add"
+          element={
+            <ProtectedRoute>
+              <AddStory />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/player/:id" element={<Player />} />
       </Routes>
     </Router>

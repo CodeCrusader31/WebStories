@@ -31,7 +31,7 @@ export default function AdminDashboard() {
           to="/admin/add"
           className={`px-4 py-2 rounded-lg transition ${
             theme === "dark"
-              ? "bg-indigo-600 text-white hover:bg-indigo-500"
+              ? "bg-indigo-600 text-white hover:bg-indigo-400"
               : "bg-indigo-600 text-white hover:bg-indigo-700"
           }`}
         >

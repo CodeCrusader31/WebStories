@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import useTheme from "../context/useTheme"; 
 
 export default function AddStory() {
-  const { theme } = useTheme(); // 
+  const { theme } = useTheme();  
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const editingId = params.get("id");
